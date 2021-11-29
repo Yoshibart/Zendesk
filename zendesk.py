@@ -75,7 +75,7 @@ class ZenCoding:
                             print("\nTICKET NOT FOUND")
                             print("\n------------------------------------")
                 if(opt == 3):
-                    print("\n")
+                    print("\nThanks!!!!!")
                     break
 
 
