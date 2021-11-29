@@ -34,6 +34,17 @@ class ZenCoding:
         elif(self.response.status_code == 200):
             self.program()
 
+    def print_data(self, tick):
+        print("\n-------------------------- TICKET "+str(tick["id"])+" -----------------------")
+        print("\n---------------------------------------------------------------")
+        print("\nCreatedAt:      " + tick["created_at"])
+        print("\nSubject:        " + tick["subject"])
+        print("\nAssignedTo:     " + str(tick["assignee_id"]))
+        print("\nRequestedBy:    " + str(tick["requester_id"]))
+        print("\nLocatedAt:      " + tick["url"])
+        print("\n---------------------------------------------------------------")
+
+
     def program(self):
         self.response = json.loads(self.response.text)
         self.response = [ticket for ticket in self.response["tickets"]]
@@ -44,38 +55,21 @@ class ZenCoding:
                 opt = int(opt)
         
                 if(opt == 1):
-                    for ticket in self.response:
-                        print("\n-------------------------- TICKET "+str(ticket["id"])+" -----------------------")
-                        print("\n---------------------------------------------------------------")
-                        print("\nCreatedAt:      " + ticket["created_at"])
-                        print("\nSubject:        " + ticket["subject"])
-                        print("\nAssignedTo:     " + str(ticket["assignee_id"]))
-                        print("\nRequestedBy:    " + str(ticket["requester_id"]))
-                        print("\nLocatedAt:      " + ticket["url"])
-                        print("\n---------------------------------------------------------------")
-
+                    for tick in self.response:
+                        self.print_data(tick)
                 if(opt == 2):
                     option = input("\nEnter the TICKET ID: ")
                     if(option.isdecimal()):
                         option = int(option)
                         if(option in [ticket["id"] for ticket in self.response]):
-                            for ticket in self.response:
-                                if(ticket["id"] == option):
-                                    print("\n-------------------------- TICKET "+str(ticket["id"])+" -----------------------")
-                                    print("\n---------------------------------------------------------------")
-                                    print("\nCreatedAt:      " + ticket["created_at"])
-                                    print("\nSubject:        " + ticket["subject"])
-                                    print("\nAssignedTo:     " + str(ticket["assignee_id"]))
-                                    print("\nRequestedBy:    " + str(ticket["requester_id"]))
-                                    print("\nLocatedAt:      " + ticket["url"])
-                                    print("\n---------------------------------------------------------------")
-                                    break
+                            tick = [ticket for ticket in self.response if(ticket["id"] == option)]
+                            self.print_data(tick[0])
                         else:
                             print("\n------------------------------------")
                             print("\nTICKET NOT FOUND")
                             print("\n------------------------------------")
                 if(opt == 3):
-                    print("\nThanks!!!!!")
+                    print("\nThanks!!!!!\n")
                     break
 
 
