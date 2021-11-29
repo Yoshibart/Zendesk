@@ -2,38 +2,49 @@ import requests
 import json
 from requests.auth import  HTTPBasicAuth
 
-def ZenCoding():
-    url = "https://zccbarnet.zendesk.com/api/v2/tickets"
+username = "oworibarnet@gmail.com"
+password = "qadmin-vybwy1-munBuc"
+url = "https://zccbarnet.zendesk.com/api/v2/tickets"
 
-    response = requests.get(url, auth=HTTPBasicAuth("oworibarnet@gmail.com", "qadmin-vybwy1-munBuc"))
+class ZenCoding:
+    '''
+    Program prints certain elements of the class for the API
+    '''
+    def __init__(self, url, username, password):
+        self.response = requests.get(url, auth=HTTPBasicAuth(username, password))
+        self.start_program()
     
-    if(response.status_code == 400):
-        print("\nInvalid syntax for this request was provided.\n")
+    def Menu(self):
+        print("\nWelcome to Zendesk Coding Assessment\n")
+        print("\n--------------Menu----------------\n")
+        print("\nPress 1: Display all the tickets\n")
+        print("\nPress 2: Display a ticket\n") 
+        print("\nPress 3: Exit\n") 
 
-    elif(response.status_code == 401):
-        print("\nYou are unauthorized to access the requested resource. Please log in.")
+    def start_program(self):
+        if(self.response.status_code == 400):
+            print("\nInvalid syntax for this request was provided.\n")
 
-    elif(response.status_code == 404):
-        print("\nWe could not find the resource you requested")
+        elif(self.response.status_code == 401):
+            print("\nYou are unauthorized to access the requested resource. Please log in.")
 
-    elif(response.status_code == 200):
-        response = json.loads(response.text)
-        options = ["id","url","created_at","requester_id","assignee_id", "subject"]
-        response = [ticket for ticket in response["tickets"]]
-    
+        elif(self.response.status_code == 404):
+            print("\nWe could not find the resource you requested")
+
+        elif(self.response.status_code == 200):
+            self.program()
+
+    def program(self):
+        self.response = json.loads(self.response.text)
+        self.response = [ticket for ticket in self.response["tickets"]]
         while(True):
-            print("\nWelcome to Zendesk Coding Assessment\n")
-            print("\n--------------Menu----------------\n")
-            print("\nPress 1: Display all the tickets\n")
-            print("\nPress 2: Display a ticket\n") 
-            print("\nPress 3: Exit\n") 
-
+            self.Menu()
             opt = input("\nEnter Option 1, 2 or 3: ")
             if(opt.isdecimal()):
                 opt = int(opt)
-           
+        
                 if(opt == 1):
-                    for ticket in response:
+                    for ticket in self.response:
                         print("\n-------------------------- TICKET "+str(ticket["id"])+" -----------------------")
                         print("\n---------------------------------------------------------------")
                         print("\nCreatedAt:      " + ticket["created_at"])
@@ -47,8 +58,8 @@ def ZenCoding():
                     option = input("\nEnter the TICKET ID: ")
                     if(option.isdecimal()):
                         option = int(option)
-                        if(option in [ticket["id"] for ticket in response]):
-                            for ticket in response:
+                        if(option in [ticket["id"] for ticket in self.response]):
+                            for ticket in self.response:
                                 if(ticket["id"] == option):
                                     print("\n-------------------------- TICKET "+str(ticket["id"])+" -----------------------")
                                     print("\n---------------------------------------------------------------")
@@ -64,7 +75,8 @@ def ZenCoding():
                             print("\nTICKET NOT FOUND")
                             print("\n------------------------------------")
                 if(opt == 3):
+                    print("\n")
                     break
 
 
-ZenCoding()
+ZenCoding(url, username, password)
