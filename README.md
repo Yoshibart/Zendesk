@@ -3,9 +3,9 @@
 
 #The program connects to the API  if there is an status error such 404, 401, 400 then print an error message to the user.
 
-#-------------------------------------.
-#Welcome to Zendesk Coding Assessment.
-#--------------Menu-------------------.
+#-------------------------------------
+#Welcome to Zendesk Coding Assessment
+#--------------Menu-------------------
 #Press 1: Display all the tickets.
 #Press 2: Display a ticket.
 #Press 3: Exit.
